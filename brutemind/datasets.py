@@ -22,34 +22,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import codecs
 import os
-import re
-from setuptools import setup, find_packages
+import pandas as pd
+import numpy as np
 
-setup(
-    name='brutemind',
-    author='Valeriy Garnaga',
-    author_email='val@cto911.com',
-    maintainer='Valeriy Garnaga',
-    maintainer_email='val@cto911.com',
-    version='0.13dev',
-    license='MIT',
-    long_description=open('README.txt').read(),
-    url='https://gitlab.com/mikecto911/brutemind',
-    packages=find_packages(),
-    classifiers=[  
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-    ],
-    package_data={
-        'csv': ['brutemind/diabetes_inputs.csv', 'brutemind/diabetes_outputs.csv', 'brutemind/iris_inputs.csv', 'brutemind/iris_outputs.csv'],
-    },
-    include_package_data=True,
-)
+class Data(object):
+    def __init__(self, data, target):
+        self.data = data
+        self.target = target
+
+def load_iris():
+    inputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'iris_inputs.csv'), \
+                            sep=',', encoding='utf-8', index_col=0).astype(np.float64).values.tolist()
+    outputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'iris_outputs.csv'), \
+                                sep=',', encoding='utf-8', index_col=0).astype(np.float64).values.tolist()
+    return Data(inputData, outputData)
+
+def load_diabetes():
+    inputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'diabetes_inputs.csv'), \
+                                sep=',', encoding='utf-8').astype(np.float64).values.tolist()
+    outputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'diabetes_outputs.csv'), \
+                                sep=',', encoding='utf-8').astype(np.float64).values.tolist()
+    return Data(inputData, outputData)

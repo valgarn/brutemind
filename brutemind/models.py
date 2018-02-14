@@ -31,6 +31,18 @@ from google.protobuf import text_format
 
 import numpy as np
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
+tf.logging.set_verbosity(tf.logging.ERROR)
+
+ACTIVATION_FUNCTIONS = ["RELU", "SIGMOID", "TANH", "SOFTSIGN", "ELU"]
+NEURAL_NETWORK = "NeuralNetwork"
+NEURAL_NETWORK_TEMPLATE = {
+            "model": NEURAL_NETWORK,
+            "maxLayersCount": 5,
+            "maxLayerNeuronsCount": 300,
+            "activationFunctions": ACTIVATION_FUNCTIONS
+        }
+
 class NeuralNetwork(object):
     def __init__(self, parameters=None, layersCount=0, deviceCount={'CPU' : 8, 'GPU' : 0}):
 
@@ -110,8 +122,11 @@ class NeuralNetwork(object):
         return tf.transpose(value)
 
     def run(self, x):
-        y = self.sess.run(self.pred, feed_dict={self.x_data: x})
-        return y
+        try:
+            y = self.sess.run(self.pred, feed_dict={self.x_data: x})
+            return y
+        except:
+            return None
 
     def load(self, loadPath):
         with gfile.FastGFile(os.path.join(loadPath, "model.pb"),'rb') as f:
