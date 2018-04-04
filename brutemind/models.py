@@ -44,6 +44,9 @@ NEURAL_NETWORK_TEMPLATE = {
         }
 
 class NeuralNetwork(object):
+
+    DEBUG_MODE = False
+
     def __init__(self, parameters=None, layersCount=0, deviceCount={'CPU' : 8, 'GPU' : 0}):
 
         tf.reset_default_graph()
@@ -56,6 +59,7 @@ class NeuralNetwork(object):
             tf.nn.elu]
 
         # Network Parameters
+        self.parameters = parameters
         self.layerDimensions = [x for x in parameters[:layersCount] if x > 0]
         self.layersCount = layersCount
         self.maxHiddenLayersCount = layersCount-2
@@ -125,7 +129,9 @@ class NeuralNetwork(object):
         try:
             y = self.sess.run(self.pred, feed_dict={self.x_data: x})
             return y
-        except:
+        except Exception as e:
+            if NeuralNetwork.DEBUG_MODE:
+                print(e)
             return None
 
     def load(self, loadPath):

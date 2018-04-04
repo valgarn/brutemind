@@ -33,7 +33,7 @@ setup(
     author_email='val@cto911.com',
     maintainer='Valeriy Garnaga',
     maintainer_email='val@cto911.com',
-    version='0.13dev',
+    version='0.29dev',
     license='MIT',
     long_description=open('README.txt').read(),
     url='https://gitlab.com/mikecto911/brutemind',

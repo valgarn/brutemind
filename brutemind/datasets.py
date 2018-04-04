@@ -10,10 +10,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,25 +22,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pandas as pd
-import numpy as np
-
 class Data(object):
-    def __init__(self, data, target):
-        self.data = data
-        self.target = target
 
-def load_iris():
-    inputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'iris_inputs.csv'), \
-                            sep=',', encoding='utf-8', index_col=0).astype(np.float64).values.tolist()
-    outputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'iris_outputs.csv'), \
-                                sep=',', encoding='utf-8', index_col=0).astype(np.float64).values.tolist()
-    return Data(inputData, outputData)
+    DATA_URL = "http://fremont1.cto911.com/esdoc/data/"
 
-def load_diabetes():
-    inputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'diabetes_inputs.csv'), \
-                                sep=',', encoding='utf-8').astype(np.float64).values.tolist()
-    outputData = pd.read_csv(os.path.join(os.path.dirname(__file__) or '.', 'diabetes_outputs.csv'), \
-                                sep=',', encoding='utf-8').astype(np.float64).values.tolist()
-    return Data(inputData, outputData)
+    def __init__(self, inputTrainCsvZipUrl, outputTrainCsvZipUrl, inputTestCsvZipUrl, outputTestCsvZipUrl, zipPassword=None, refreshData=True):
+        self.inputTrainCsvZipUrl = inputTrainCsvZipUrl
+        self.outputTrainCsvZipUrl = outputTrainCsvZipUrl
+        self.inputTestCsvZipUrl = inputTestCsvZipUrl
+        self.outputTestCsvZipUrl = outputTestCsvZipUrl
+        self.zipPassword = zipPassword
+        self.refreshData = refreshData
+
+def load_valuation(refresh_data=True):
+    inputTrainCsvZipUrl = '{}valuation_train_inputs.zip'.format(Data.DATA_URL)
+    outputTrainCsvZipUrl = '{}valuation_train_outputs.zip'.format(Data.DATA_URL)
+    inputTestCsvZipUrl = None
+    outputTestCsvZipUrl = None    
+    return Data(inputTrainCsvZipUrl, outputTrainCsvZipUrl, inputTestCsvZipUrl, outputTestCsvZipUrl, refresh_data)
+
+def load_iris(refresh_data=True):
+    inputTrainCsvZipUrl = '{}iris_train_inputs.zip'.format(Data.DATA_URL)
+    outputTrainCsvZipUrl = '{}iris_train_outputs.zip'.format(Data.DATA_URL)
+    inputTestCsvZipUrl = None
+    outputTestCsvZipUrl = None
+    return Data(inputTrainCsvZipUrl, outputTrainCsvZipUrl, inputTestCsvZipUrl, outputTestCsvZipUrl, refresh_data)
+
+
+def load_diabetes(refresh_data=True):
+    inputTrainCsvZipUrl = '{}diabetes_train_inputs.zip'.format(Data.DATA_URL)
+    outputTrainCsvZipUrl = '{}diabetes_train_outputs.zip'.format(Data.DATA_URL)
+    inputTestCsvZipUrl = None
+    outputTestCsvZipUrl = None
+    return Data(inputTrainCsvZipUrl, outputTrainCsvZipUrl, inputTestCsvZipUrl, outputTestCsvZipUrl, refresh_data)
+
+
+def load_mnist(refresh_data=True):
+    inputTrainCsvZipUrl = '{}mnist_train_inputs.zip'.format(Data.DATA_URL)
+    outputTrainCsvZipUrl = '{}mnist_train_outputs.zip'.format(Data.DATA_URL)
+    inputTestCsvZipUrl = '{}mnist_test_inputs.zip'.format(Data.DATA_URL)
+    outputTestCsvZipUrl = '{}mnist_test_outputs.zip'.format(Data.DATA_URL)
+    return Data(inputTrainCsvZipUrl, outputTrainCsvZipUrl, inputTestCsvZipUrl, outputTestCsvZipUrl, refresh_data)
